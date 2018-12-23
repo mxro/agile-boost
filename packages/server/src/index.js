@@ -1,7 +1,14 @@
 import express from 'express';
 import { ApolloServer, gql } from 'apollo-server-express';
+import path from 'path';
+
 const app = express();
-const port = 4000;
+let port;
+if (!process.env.PORT) {
+    port = 4000;
+} else {
+    port = process.env.PORT
+}
 
 const books = [
     {
@@ -15,7 +22,6 @@ const books = [
 ];
 
 const typeDefs = gql`
-  # Comments in GraphQL are defined with the hash (#) symbol.
 
   type Book {
     title: String
