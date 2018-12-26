@@ -2,7 +2,8 @@
   "name": "root",
   "scripts": {
     "build": "lerna run build --stream",
-    "watch": "concurrently --kill-others-on-fail \"cd packages/server-main; yarn watch\" \"cd packages/client-main; yarn watch\"",
+    "watch": "concurrently --kill-others-on-fail \"cd packages/server-main; yarn watch\"  \"cd packages/client-main; yarn watch\"",
+    "watch-components" : "lerna run watch-components --stream",
     "serve": "cd packages/server-main; cross-env PORT=8080 yarn serve"
   },
   "private": true,
