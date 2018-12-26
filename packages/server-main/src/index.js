@@ -1,6 +1,7 @@
 import express from 'express';
 import { ApolloServer, gql } from 'apollo-server-express';
 import path from 'path';
+import books from 'server-books';
 
 const app = express();
 let port;
@@ -10,34 +11,11 @@ if (!process.env.PORT) {
     port = process.env.PORT
 }
 
-const books = [
-    {
-        title: 'Harry Potter and the Chamber of Secrets',
-        author: 'J.K. Rowling',
-    },
-    {
-        title: 'Jurassic Park',
-        author: 'Michael Crichton',
-    },
-];
+let typeDefs = gql([books.typeDefs].join(""));
 
-const typeDefs = gql`
-
-  type Book {
-    title: String
-    author: String
-  }
-
-  type Query {
-    books: [Book]
-  }
-`;
-
-const resolvers = {
-    Query: {
-        books: () => books,
-    },
-};
+let resolvers = {
+    ...books.resolvers
+}
 
 const server = new ApolloServer({
     typeDefs,
