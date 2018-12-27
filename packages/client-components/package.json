@@ -10,10 +10,10 @@
     "react-dom": "^16.7.0"
   },
   "scripts": {
-    "build:src": "babel ./src --out-dir ./dist --delete-dir-on-start --copy-files",
+    "build:src": "babel ./src --out-dir ./dist --delete-dir-on-start --copy-files --source-maps",
     "build": "NODE_ENV=production yarn build:src",
     "start": "NODE_ENV=development yarn build:src --watch --source-maps",
-    "watch-components": "NODE_ENV=development nodemon --watch ./src --exec babel ./src --out-dir ./dist --copy-files"
+    "watch-components": "NODE_ENV=development nodemon --watch ./src --exec babel ./src --out-dir ./dist --copy-files --source-maps"
   },
   "eslintConfig": {
     "extends": "react-app"
