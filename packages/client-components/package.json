@@ -11,9 +11,9 @@
   },
   "scripts": {
     "build:src": "babel ./src --out-dir ./dist --delete-dir-on-start --copy-files --source-maps",
-    "build": "NODE_ENV=production yarn build:src",
-    "start": "NODE_ENV=development yarn build:src --watch --source-maps",
-    "watch-components": "NODE_ENV=development nodemon --watch ./src --exec babel ./src --out-dir ./dist --copy-files --source-maps",
+    "build": "cross-env NODE_ENV=production yarn build:src",
+    "start": "cross-env NODE_ENV=development yarn build:src --watch --source-maps",
+    "watch-components": "cross-env NODE_ENV=development nodemon --watch ./src --exec babel ./src --out-dir ./dist --copy-files --source-maps",
     "test": "cross-env CI=1 react-scripts test --env=jsdom"
   },
   "eslintConfig": {

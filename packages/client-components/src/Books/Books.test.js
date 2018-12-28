@@ -37,6 +37,7 @@ it('Renders one book', async () => {
   </MockedProvider>);
   expect(component.toJSON()).toEqual('Loading...');
 
+  // to wait for eventl loop to complete - after which component should be loaded
   await wait(0);
 
   const pre = component.root.findByType('pre');

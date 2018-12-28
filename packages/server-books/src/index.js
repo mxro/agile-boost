@@ -1,15 +1,6 @@
 
+import books from './resolvers/books'
 
-const books = [
-    {
-        title: 'Harry Potter and the Chamber of Secrets',
-        author: 'J.K. Rowling',
-    },
-    {
-        title: 'Jurassic Park',
-        author: 'Michael Crichton',
-    }
-];
 
 const typeDefs = `
 
@@ -26,7 +17,7 @@ const typeDefs = `
 
 const resolvers = {
     Query: {
-        books: () => books,
+        books,
     },
 };
 
