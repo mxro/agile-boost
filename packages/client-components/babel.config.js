@@ -1,3 +1,7 @@
 module.exports = {
-    presets: [ "react",],
+    presents: ["env", {
+        "modules": false
+      },
+      "stage-0",
+      "react"]
   };
