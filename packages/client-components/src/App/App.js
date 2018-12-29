@@ -3,7 +3,7 @@ import './App.css';
 
 import { ApolloProvider } from "react-apollo";
 
-import Books from './../Books';
+import Books from '../Books/Books';
 
 import ApolloClient from "apollo-boost";
 

@@ -14,7 +14,7 @@ if (!process.env.PORT) {
 let typeDefs = gql([books.typeDefs].join(""));
 
 let resolvers = {
-    ...books.resolvers
+    ...books.queryResolvers
 }
 
 const server = new ApolloServer({
