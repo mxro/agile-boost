@@ -1,25 +1,12 @@
 
-import books from './resolvers/books'
+import resolvers from './resolvers'
 
 
-const typeDefs = `
+import typeDefs from './schema'
 
-  type Book {
-    title: String
-    author: String
-  }
-
-  type Query {
-    books: [Book]
-  }
-
-`;
-
-const resolvers = {
-    Query: {
-        books,
-    },
+const queryResolvers = {
+    Query: resolvers,
 };
 
 
-export default {typeDefs, resolvers};
+export default {typeDefs, queryResolvers};

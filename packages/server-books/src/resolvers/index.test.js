@@ -1,4 +1,6 @@
-import books from './books';
+import resolvers from './';
+
+const books = resolvers.books;
 
 it('Provides book data', () => {
     expect(books({}, {}, {})).toContainEqual({
