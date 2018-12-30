@@ -1,6 +1,5 @@
 export default `
 
-
 type Board {
     _id: ID!
     creator: User!
@@ -28,6 +27,31 @@ type Entry {
     creator: User!
     createdAt: String!
     updatedAt: String!
+}
+
+type RootQuery {
+    boards: [Board!]!
+    user(sessionId: String!): User
+}
+
+type UserInput {
+    sessionId: String!
+    email: String
+}
+
+type BoardInput {
+    title: String!
+    creator: User!
+}
+
+type RootMutation {
+    createUser(userInput: UserInput!): User
+    createBoard(boardInput: BoardInput!): Board
+}
+
+schema {
+    query: RootQuery
+    mutation: RootMutation
 }
 
 `;
