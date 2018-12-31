@@ -1,5 +1,10 @@
 import userResolver from './user';
 
 export default {
-    ...userResolver
+    RootQuery: {
+        ...userResolver.RootQuery
+    },
+    RootMutation: {
+        ...userResolver.RootMutation
+    }
 };

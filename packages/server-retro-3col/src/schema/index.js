@@ -34,19 +34,19 @@ type RootQuery {
     user(sessionId: String!): User
 }
 
-type UserInput {
+input UserInput {
     sessionId: String!
     email: String
 }
 
-type BoardInput {
+input BoardInput {
     title: String!
-    creator: User!
+    creatorId: String!
 }
 
 type RootMutation {
-    createUser(userInput: UserInput!): User
-    createBoard(boardInput: BoardInput!): Board
+    createUser(userInput: UserInput): User
+    createBoard(boardInput: BoardInput): Board
 }
 
 schema {

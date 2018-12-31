@@ -1,7 +1,9 @@
 
+const dateToString = date => new Date(date).toISOString();
+
 const extractDoc = (obj) => {
     return {
-        ...obj._dod,
+        ...obj._doc,
         _id: obj.id
     }
 }
@@ -15,5 +17,5 @@ const fixDates = (obj) => {
 }
 
 export default {
-    fixId, fixDates
+    extractDoc, fixDates
 };

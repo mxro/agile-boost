@@ -1,25 +1,28 @@
 import utils from './utils';
 
 import User from '../models/user';
+import { exists } from 'fs';
 
 export default {
-    user: async (obj, {sessionId}, context, info) => {
-        const mongoose = context.mongoose;
+    RootQuery: {
+        user: async (obj, { sessionId }, context, info) => {
+            const mongoose = context.mongoose;
 
-        const doc = utils.extractDoc(await mongoose.findOne({sessionId: sessionId}));
+            const doc = utils.extractDoc(await mongoose.findOne({ sessionId: sessionId }));
 
-        return utils.fixDates(doc);
+            return utils.fixDates(doc);
 
+        },
     },
-    createUser: async (obj, {sessionId, email}, context, info) => {
-
-        const user = new User({
-            sessionId: sessionId,
-            email: email
-        });
-
-        return utils.fixDates(utils.extractDoc(await user.save()));
-        
+    RootMutation: {
+        createUser: async (obj, {userInput: {sessionId, email}}, context, info) => {
+            const user = new User({
+                sessionId: sessionId,
+                email: email
+            });
+            const res =  utils.fixDates(utils.extractDoc(await user.save()));
+            return res;
+        }
     }
-
+      
 };
