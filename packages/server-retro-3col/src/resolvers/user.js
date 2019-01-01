@@ -8,7 +8,7 @@ export default {
         user: async (obj, { sessionId }, context, info) => {
             const mongoose = context.mongoose;
 
-            const doc = utils.extractDoc(await mongoose.findOne({ sessionId: sessionId }));
+            const doc = utils.extractDoc(await User.findOne({ sessionId: sessionId }));
 
             return utils.fixDates(doc);
 

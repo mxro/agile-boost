@@ -21,10 +21,22 @@ const userTestCase = {
         variables: {
             userInput: {
                 sessionId: "dummysessionid",
-                email: "test@test.com" 
+                email: "test@test.com"
             }
         },
         expectedResult: { data: { createUser: { sessionId: "dummysessionid" } } }
+    },
+    {
+        query: `
+            query {
+                user(sessionId: "dummysessionid") {
+                    email
+                }
+            }
+        `,
+        variables: {
+        },
+        expectedResult: { data: { user : { email: "test@test.com"}} }
     }
     ],
     variables: {},
