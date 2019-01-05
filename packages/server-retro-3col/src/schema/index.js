@@ -2,6 +2,7 @@ export default `
 
 type Board {
     _id: ID!
+    title: String!
     creator: User!
     createdAt: String!
     updatedAt: String!
@@ -31,6 +32,7 @@ type Entry {
 
 type RootQuery {
     boards: [Board!]!
+    board(boardId: String!): Board
     user(sessionId: String!): User
 }
 

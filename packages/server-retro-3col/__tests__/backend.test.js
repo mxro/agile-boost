@@ -68,8 +68,39 @@ const userTestCase = {
         },
         assert: (result) => expect(result.data.createBoard._id).not.toBeUndefined
     },
-
-
+    {
+        query: `
+            query {
+                boards {
+                    _id
+                    title
+                }
+            }
+        `,
+        variables: {
+        },
+        assert: (result) => {
+            expect(result.data.boards.length).toBeGreaterThan(0)
+            expect(result.data.boards[0]._id).not.toBeUndefined
+            expect(result.data.boards[0].title).toEqual("Test board")
+        }
+    },
+    {
+        query: `
+            query Board($boardId: String!) {
+                board(boardId: $boardId) {
+                    _id
+                    title
+                }
+            }
+        `,
+        variables: {
+            boardId: () => lastResult.data.boards[0]._id
+        },
+        assert: (result) => {
+            expect(result.data.board.title).toEqual("Test board");
+        }
+    }
     ],
     variables: {},
     context: {}
@@ -96,6 +127,9 @@ const schema = makeExecutableSchema({ typeDefs: typeDefs, resolvers: resolvers }
 const evaluateVariables = (variables) => {
     Object.keys(variables).forEach(key => {
 
+        if (typeof variables[key] === 'function') {
+            variables[key] = variables[key]();
+        }
         Object.keys(variables[key]).forEach(varkey => {
             if (typeof variables[key][varkey] === 'function') {
                 variables[key][varkey] = variables[key][varkey]();
