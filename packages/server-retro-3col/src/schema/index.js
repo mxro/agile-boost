@@ -33,6 +33,7 @@ type Entry {
 type RootQuery {
     boards: [Board!]!
     board(boardId: String!): Board
+    column(columnId: String!): Column
     user(sessionId: String!): User
 }
 
@@ -46,9 +47,16 @@ input BoardInput {
     creatorId: String!
 }
 
+input EntryInput {
+    text: String!
+    creatorId: String!
+    columnId: String!
+}
+
 type RootMutation {
     createUser(userInput: UserInput): User
     createBoard(boardInput: BoardInput): Board
+    createEntry(entryInput: EntryInput): Entry
 }
 
 schema {

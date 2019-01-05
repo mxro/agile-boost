@@ -50,7 +50,7 @@ const userTestCase = {
         `,
         variables: {
         },
-        assert: (result) => expect(result.data.user._id).not.toBeUndefined
+        assert: (result) => expect(result.data.user._id).not.toBeUndefined()
     },
     {
         query: `
@@ -66,7 +66,7 @@ const userTestCase = {
                 creatorId: () => lastResult.data.user._id
             }
         },
-        assert: (result) => expect(result.data.createBoard._id).not.toBeUndefined
+        assert: (result) => expect(result.data.createBoard._id).not.toBeUndefined()
     },
     {
         query: `
@@ -81,7 +81,7 @@ const userTestCase = {
         },
         assert: (result) => {
             expect(result.data.boards.length).toBeGreaterThan(0)
-            expect(result.data.boards[0]._id).not.toBeUndefined
+            expect(result.data.boards[0]._id).not.toBeUndefined();
             expect(result.data.boards[0].title).toEqual("Test board")
         }
     },
@@ -92,6 +92,7 @@ const userTestCase = {
                     _id
                     title
                     columns {
+                        _id
                         title
                     }
                 }
@@ -103,9 +104,48 @@ const userTestCase = {
         assert: (result) => {
             expect(result.data.board.title).toEqual("Test board");
             expect(result.data.board.columns.length).toBe(3);
-            
+
         }
-    }
+    },
+    {
+        query: `
+            query Column($columnId: String!) {
+                column(columnId: $columnId) {
+                    _id
+                    title
+                }
+                user(sessionId: "dummysessionid") {
+                    _id
+                }
+            }
+        `,
+        variables: {
+            columnId: () => lastResult.data.board.columns[0]._id
+        },
+        assert: (result) => {
+            expect(result.data.column.title).not.toBeUndefined();
+            expect(result.data.column._id).not.toBeUndefined();
+        }
+    },
+    {
+        query: `
+            mutation CreateEntry($entryInput: EntryInput) {
+                createEntry(entryInput: $entryInput) {
+                    _id
+                }
+             }
+        `,
+        variables: {
+            entryInput: {
+                    text: "Test Entry",
+                    creatorId: () => lastResult.data.user._id,
+                    columnId: () => lastResult.data.column._id,
+            }
+        },
+        assert: (result) => {
+            expect(result.data.createEntry._id).not.toBeUndefined();
+        }
+    },
     ],
     variables: {},
     context: {}
