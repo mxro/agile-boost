@@ -8,6 +8,8 @@ import MongoMemoryServer from 'mongodb-memory-server';
 
 let mongod;
 
+let lastResult = {};
+
 const userTestCase = {
     id: 'Create and query user',
     queries: [{
@@ -24,7 +26,7 @@ const userTestCase = {
                 email: "test@test.com"
             }
         },
-        expectedResult: { data: { createUser: { sessionId: "dummysessionid" } } }
+        assert: (result) => expect(result).toEqual({ data: { createUser: { sessionId: "dummysessionid" } } })
     },
     {
         query: `
@@ -36,8 +38,38 @@ const userTestCase = {
         `,
         variables: {
         },
-        expectedResult: { data: { user : { email: "test@test.com"}} }
-    }
+        assert: (result) => expect(result).toEqual({ data: { user: { email: "test@test.com" } } })
+    },
+    {
+        query: `
+            query {
+                user(sessionId: "dummysessionid") {
+                    _id
+                }
+            }
+        `,
+        variables: {
+        },
+        assert: (result) => expect(result.data.user._id).not.toBeUndefined
+    },
+    {
+        query: `
+            mutation CreateBoard($boardInput: BoardInput) {
+                createBoard(boardInput: $boardInput) {
+                    _id
+                }
+             }
+        `,
+        variables: {
+            boardInput: {
+                title: "Test board",
+                creatorId: () => lastResult.data.user._id
+            }
+        },
+        assert: (result) => expect(result.data.createBoard._id).not.toBeUndefined
+    },
+
+
     ],
     variables: {},
     context: {}
@@ -58,9 +90,22 @@ afterAll(async () => {
 })
 
 
-
 const cases = [userTestCase]
 const schema = makeExecutableSchema({ typeDefs: typeDefs, resolvers: resolvers })
+
+const evaluateVariables = (variables) => {
+    Object.keys(variables).forEach(key => {
+
+        Object.keys(variables[key]).forEach(varkey => {
+            if (typeof variables[key][varkey] === 'function') {
+                variables[key][varkey] = variables[key][varkey]();
+            }
+        });
+
+    });
+    return variables;
+};
+
 describe('Test Cases', async () => {
 
     cases.forEach(obj => {
@@ -68,8 +113,12 @@ describe('Test Cases', async () => {
         context.mongoose = mongoose;
         test(`query: ${id}`, async () => {
             for (let query of queries) {
-                const result = await graphql(schema, query.query, null, context, query.variables);
-                expect(result).toEqual(query.expectedResult)
+
+                const result = await graphql(schema, query.query, null, context, evaluateVariables(query.variables));
+                if (query.assert) {
+                    query.assert(result);
+                }
+                lastResult = result;
             }
         })
     })

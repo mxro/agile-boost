@@ -1,7 +1,7 @@
 import utils from './utils';
 
 import User from '../models/user';
-import { exists } from 'fs';
+
 
 export default {
     RootQuery: {

@@ -1,10 +1,12 @@
 import userResolver from './user';
-
+import boardResolver from './board';
 export default {
     RootQuery: {
-        ...userResolver.RootQuery
+        ...userResolver.RootQuery,
+        ...boardResolver.RootQuery
     },
     RootMutation: {
-        ...userResolver.RootMutation
+        ...userResolver.RootMutation,
+        ...boardResolver.RootMutation
     }
 };

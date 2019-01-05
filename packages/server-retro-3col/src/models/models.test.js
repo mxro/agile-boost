@@ -40,7 +40,7 @@ it('Can create models and save to db', async () => {
 
     let board = new Board({
         title: 'Agile 3',
-        creator: user,
+        creatorId: user,
         columns: [column]
     });
 
