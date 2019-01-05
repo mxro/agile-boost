@@ -91,6 +91,9 @@ const userTestCase = {
                 board(boardId: $boardId) {
                     _id
                     title
+                    columns {
+                        title
+                    }
                 }
             }
         `,
@@ -99,6 +102,8 @@ const userTestCase = {
         },
         assert: (result) => {
             expect(result.data.board.title).toEqual("Test board");
+            expect(result.data.board.columns.length).toBe(3);
+            
         }
     }
     ],

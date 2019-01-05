@@ -14,11 +14,13 @@ export default {
 
         },
         board: async (obj, args, context, info) => {
-            const doc = await Board.findOne({ _id: args.boardId });
+            const doc = await Board.findOne({ _id: args.boardId }).populate('columns');
+            const extractedDoc = utils.extractDoc(doc); 
+            extractedDoc.columns = extractedDoc.columns.map( column => utils.fixDates(utils.extractDoc(column)));
             if (!doc) {
                 throw new Error(`Cannot find board with id ${args.boardId}`);
             }
-            return utils.fixDates(utils.extractDoc(doc));
+            return utils.fixDates(extractedDoc);
         }
     },
     RootMutation: {
