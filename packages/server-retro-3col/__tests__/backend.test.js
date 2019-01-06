@@ -1,8 +1,10 @@
 import { makeExecutableSchema } from 'graphql-tools'
 import { graphql } from 'graphql'
-import resolvers from '../src/resolvers'
+import retro3ColResolvers from '../src/resolvers'
+import { authResolvers, authSchema } from 'server-auth'
 import typeDefs from '../src/schema'
-
+import { graphqlUtils } from 'server-utils';
+import { merge } from 'lodash';
 import mongoose from 'mongoose';
 import MongoMemoryServer from 'mongodb-memory-server';
 
@@ -109,7 +111,7 @@ const userTestCase = {
     },
     {
         query: `
-            query Column($columnId: String!) {
+            query ColumnAndUser($columnId: String!) {
                 column(columnId: $columnId) {
                     _id
                     title
@@ -147,7 +149,6 @@ const userTestCase = {
         }
     },
     ],
-    variables: {},
     context: {}
 };
 
@@ -165,9 +166,9 @@ afterAll(async () => {
     return mongod.stop();
 })
 
-
+const resolvers = merge(authResolvers, retro3ColResolvers);
 const cases = [userTestCase]
-const schema = makeExecutableSchema({ typeDefs: typeDefs, resolvers: resolvers })
+const schema = makeExecutableSchema({ typeDefs: graphqlUtils.rootTypes() + authSchema + typeDefs, resolvers: resolvers })
 
 const evaluateVariables = (variables) => {
     Object.keys(variables).forEach(key => {
@@ -186,6 +187,8 @@ const evaluateVariables = (variables) => {
 };
 
 describe('Test Cases', async () => {
+
+    it('Test initialized', () => {});
 
     cases.forEach(obj => {
         const { id, queries, variables, context } = obj

@@ -1,5 +1,5 @@
 import Entry from '../models/entry';
-import utils from './utils';
+import {mongo} from 'server-utils';
 
 import Column from '../models/column';
 
@@ -22,7 +22,7 @@ export default {
             
             await column.save();
 
-            return utils.fixDates(utils.extractDoc(entry)); 
+            return mongo.fixDates(mongo.extractDoc(entry)); 
             
 
         }

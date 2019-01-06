@@ -1,4 +1,4 @@
-import utils from './utils';
+import { mongo } from 'server-utils';
 
 import User from '../models/user';
 
@@ -8,9 +8,9 @@ export default {
         user: async (obj, { sessionId }, context, info) => {
             const mongoose = context.mongoose;
 
-            const doc = utils.extractDoc(await User.findOne({ sessionId: sessionId }));
+            const doc = mongo.extractDoc(await User.findOne({ sessionId: sessionId }));
 
-            return utils.fixDates(doc);
+            return mongo.fixDates(doc);
 
         },
     },
@@ -20,7 +20,7 @@ export default {
                 sessionId: sessionId,
                 email: email
             });
-            const res =  utils.fixDates(utils.extractDoc(await user.save()));
+            const res =  mongo.fixDates(mongo.extractDoc(await user.save()));
             return res;
         }
     }

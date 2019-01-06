@@ -1,4 +1,4 @@
-import utils from './utils';
+import {mongo} from 'server-utils';
 
 import Board from '../models/board';
 import Column from '../models/column';
@@ -9,18 +9,18 @@ export default {
 
             const docs = await Board.find({});
             return docs.map(doc => {
-                return utils.fixDates(utils.extractDoc(doc));
+                return mongo.fixDates(mongo.extractDoc(doc));
             });
 
         },
         board: async (obj, args, context, info) => {
             const doc = await Board.findOne({ _id: args.boardId }).populate('columns');
-            const extractedDoc = utils.extractDoc(doc); 
-            extractedDoc.columns = extractedDoc.columns.map( column => utils.fixDates(utils.extractDoc(column)));
+            const extractedDoc = mongo.extractDoc(doc); 
+            extractedDoc.columns = extractedDoc.columns.map( column => mongo.fixDates(mongo.extractDoc(column)));
             if (!doc) {
                 throw new Error(`Cannot find board with id ${args.boardId}`);
             }
-            return utils.fixDates(extractedDoc);
+            return mongo.fixDates(extractedDoc);
         }
     },
     RootMutation: {
@@ -50,7 +50,7 @@ export default {
                 creatorId: creatorId,
                 columns: [downwardColumn, sidewaysColumn, upColumn]
             });
-            const res = utils.fixDates(utils.extractDoc(await board.save()));
+            const res = mongo.fixDates(mongo.extractDoc(await board.save()));
             return res;
         }
     }
