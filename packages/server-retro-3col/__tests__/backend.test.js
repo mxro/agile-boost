@@ -166,6 +166,7 @@ afterAll(async () => {
     return mongod.stop();
 })
 
+// schemas and resolvers stitched according to https://blog.apollographql.com/modularizing-your-graphql-schema-code-d7f71d5ed5f2
 const resolvers = merge(authResolvers, retro3ColResolvers);
 const cases = [userTestCase]
 const schema = makeExecutableSchema({ typeDefs: graphqlUtils.rootTypes() + authSchema + typeDefs, resolvers: resolvers })
