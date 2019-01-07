@@ -19,33 +19,38 @@ class SignupForm extends React.Component {
 
     render() {
         return (
-            <Mutation mutation={CREATE_USER}>
-                {(createUser, { data }) => (
-                    <form onSubmit={event => {
+            <Mutation mutation={CREATE_USER} onCompleted={data => {} }>
+                {(createUser, { data, loading, error }) => (
+                    <div>
+                        <form onSubmit={event => {
 
-                        event.preventDefault();
-                        if (!this.state.email) {
-                            alert('Please provide an email address');
-                            return;
-                        }
-                        const sessionId = '123';
-                        createUser({
-                            variables: {
-                                userInput: {
-                                    email: this.state.email,
-                                    sessionId: sessionId
-                                }
+                            event.preventDefault();
+                            if (!this.state.email) {
+                                alert('Please provide an email address');
+                                return;
                             }
-                        });
-                        input.value = "";
+                            const sessionId = '123';
+                            createUser({
+                                variables: {
+                                    userInput: {
+                                        email: this.state.email,
+                                        sessionId: sessionId
+                                    }
+                                }
+                            });
+                            input.value = "";
 
-                    }}>
-                        <label>
-                            Email:
+                        }}>
+                            <label>
+                                Email:
           <input type="text" value={this.state.email} onChange={this.handleChange} />
-                        </label>
-                        <input type="submit" value="Submit" />
-                    </form>)}
+                            </label>
+                            <input type="submit" value="Submit" />
+                        </form>
+                        {loading && <p>Loading...</p>}
+                        {error && <p>Error :( Please try again</p>}
+                    </div>
+                )}
             </Mutation>
         );
     }
