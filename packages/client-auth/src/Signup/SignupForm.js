@@ -4,6 +4,17 @@ import { Mutation } from "react-apollo";
 
 import CREATE_USER from './graphql/createuser';
 
+function uniqueID() {
+    function chr4() {
+        return Math.random().toString(16).slice(-4);
+    }
+    return chr4() + chr4() +
+        '-' + chr4() +
+        '-' + chr4() +
+        '-' + chr4() +
+        '-' + chr4() + chr4() + chr4();
+}
+
 class SignupForm extends React.Component {
     constructor(props) {
         super(props);
@@ -13,13 +24,13 @@ class SignupForm extends React.Component {
     }
 
     handleChange(event) {
-        this.setState({ value: event.target.value });
+        this.setState({ email: event.target.value });
     }
 
 
     render() {
         return (
-            <Mutation mutation={CREATE_USER} onCompleted={data => {} }>
+            <Mutation mutation={CREATE_USER} onCompleted={data => { }}>
                 {(createUser, { data, loading, error }) => (
                     <div>
                         <form onSubmit={event => {
@@ -29,7 +40,8 @@ class SignupForm extends React.Component {
                                 alert('Please provide an email address');
                                 return;
                             }
-                            const sessionId = '123';
+                            const sessionId = this.props.sessionId || uniqueID;
+                            this.props.cookies.set("sessionId", sessionId);
                             createUser({
                                 variables: {
                                     userInput: {
@@ -38,7 +50,7 @@ class SignupForm extends React.Component {
                                     }
                                 }
                             });
-                            input.value = "";
+                            this.handleChange( {target: { value: ""}}); 
 
                         }}>
                             <label>

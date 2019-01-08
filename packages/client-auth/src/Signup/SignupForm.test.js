@@ -30,8 +30,11 @@ const mocks = [
 let Component;
 
 beforeEach(() => {
+    const cookies = {
+        set: () => {}
+    }
     Component = mount(<MockedProvider mocks={mocks} addTypename={false}>
-        <SignupForm />
+        <SignupForm sessionId="123" cookies={cookies}/>
     </MockedProvider>);
 
 })
@@ -50,6 +53,7 @@ it('Allows creating a new user', async () => {
 
     const input = Component.find('[type="text"]');
     input.instance().value = "test@test.com";
+    input.simulate('change', { target: { value: 'test@test.com' } });
     const form = Component.find('form');
 
     form.simulate('submit');

@@ -8,7 +8,8 @@
     "react": "^16.7.0",
     "react-apollo": "^2.3.3",
     "react-dom": "^16.7.0",
-    "react-router-dom": "^4.3.1"
+    "react-router-dom": "^4.3.1",
+    "client-auth": ">=0.0.0"
   },
   "scripts": {
     "build:src": "babel ./src --out-dir ./dist --delete-dir-on-start --copy-files --source-maps",

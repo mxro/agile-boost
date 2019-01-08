@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 
-import { Mutation } from "react-apollo";
 
-import CREATE_USER from './graphql/createuser';
 
 
 import SignupForm from './SignupForm';
@@ -11,7 +9,12 @@ class Signup extends Component {
 
 
     render() {
-        return (<SignupForm />);
+        let content;
+        if (this.props.cookies.get("sessionId")) {
+            return (<p>You are already logged in. Session id: {this.props.cookies.get("sessionId")}</p>)
+        } else {
+            return (<SignupForm cookies={this.props.cookies} />);
+        }
     }
 }
 

@@ -1,34 +1,34 @@
 Arguments: 
-  /home/adminuser/.nvm/versions/node/v11.5.0/bin/node /home/adminuser/.yvm/versions/v1.12.3/bin/yarn.js add import CREATE_USER from ./graphql/createuser
+  /Users/max.rohde/.nvm/versions/node/v8.12.0/bin/node /usr/local/Cellar/yarn/1.12.3/libexec/bin/yarn.js add client-auth
 
 PATH: 
-  /home/adminuser/.yvm/versions/v1.12.3/bin:/home/adminuser/.nvm/versions/node/v11.5.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/adminuser/.yarn/bin:/home/adminuser/.yarn-config/global/node_modules/.bin:/home/adminuser/.yarn/bin:/home/adminuser/.yarn-config/global/node_modules/.bin
+  /Users/max.rohde/.rvm/gems/ruby-2.2.6/bin:/Users/max.rohde/.rvm/gems/ruby-2.2.6@global/bin:/Users/max.rohde/.rvm/rubies/ruby-2.2.6/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/Users/max.rohde/.nvm/versions/node/v8.12.0/bin:/Users/max.rohde/.rvm/gems/ruby-2.2.6/bin:/Users/max.rohde/.rvm/gems/ruby-2.2.6@global/bin:/Users/max.rohde/.rvm/rubies/ruby-2.2.6/bin:/Users/max.rohde/.rvm/bin:/Users/max.rohde/.rvm/bin
 
 Yarn version: 
   1.12.3
 
 Node version: 
-  11.5.0
+  8.12.0
 
 Platform: 
-  linux x64
+  darwin x64
 
 Trace: 
-  Error: http://registry.npmjs.org/CREATE_USER: Not found
-      at Request.params.callback [as _callback] (/home/adminuser/.yvm/versions/v1.12.3/lib/cli.js:65894:18)
-      at Request.self.callback (/home/adminuser/.yvm/versions/v1.12.3/lib/cli.js:129018:22)
-      at Request.emit (events.js:189:13)
-      at Request.<anonymous> (/home/adminuser/.yvm/versions/v1.12.3/lib/cli.js:129990:10)
-      at Request.emit (events.js:189:13)
-      at IncomingMessage.<anonymous> (/home/adminuser/.yvm/versions/v1.12.3/lib/cli.js:129912:12)
-      at Object.onceWrapper (events.js:277:13)
-      at IncomingMessage.emit (events.js:194:15)
-      at endReadableNT (_stream_readable.js:1129:12)
-      at process.internalTickCallback (internal/process/next_tick.js:72:19)
+  Error: https://registry.yarnpkg.com/client-auth: Not found
+      at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.12.3/libexec/lib/cli.js:65894:18)
+      at Request.self.callback (/usr/local/Cellar/yarn/1.12.3/libexec/lib/cli.js:129018:22)
+      at emitTwo (events.js:126:13)
+      at Request.emit (events.js:214:7)
+      at Request.<anonymous> (/usr/local/Cellar/yarn/1.12.3/libexec/lib/cli.js:129990:10)
+      at emitOne (events.js:116:13)
+      at Request.emit (events.js:211:7)
+      at IncomingMessage.<anonymous> (/usr/local/Cellar/yarn/1.12.3/libexec/lib/cli.js:129912:12)
+      at Object.onceWrapper (events.js:313:30)
+      at emitNone (events.js:111:20)
 
 npm manifest: 
   {
-    "name": "client-auth",
+    "name": "client-components",
     "version": "0.0.0",
     "main": "dist/index.js",
     "license": "MIT",
@@ -37,7 +37,8 @@ npm manifest:
       "react": "^16.7.0",
       "react-apollo": "^2.3.3",
       "react-dom": "^16.7.0",
-      "react-router-dom": "^4.3.1"
+      "react-router-dom": "^4.3.1",
+      "client-auth": ">=0.0.0"
     },
     "scripts": {
       "build:src": "babel ./src --out-dir ./dist --delete-dir-on-start --copy-files --source-maps",
@@ -53,7 +54,6 @@ npm manifest:
       "@babel/core": "^7.2.2",
       "@babel/preset-env": "^7.2.3",
       "@babel/preset-react": "^7.0.0",
-      "enzyme": "^3.8.0",
       "nodemon": "^1.18.9",
       "react-scripts": "^2.1.2",
       "react-test-renderer": "^16.7.0",
@@ -4984,6 +4984,29 @@ Lockfile:
     version "1.1.2"
     resolved "https://registry.yarnpkg.com/entities/-/entities-1.1.2.tgz#bdfa735299664dfafd34529ed4f8522a275fea56"
     integrity sha512-f2LZMYl1Fzu7YSBKg+RoROelpOaNrcGmE9AZubeDfrCEia483oW4MI4VyFd5VNHIgQ/7qm1I0wUHK1eJnn2y2w==
+  
+  enzyme-adapter-react-16@^1.7.1:
+    version "1.7.1"
+    resolved "https://registry.yarnpkg.com/enzyme-adapter-react-16/-/enzyme-adapter-react-16-1.7.1.tgz#c37c4cb0fd75e88a063154a7a88096474914496a"
+    integrity sha512-OQXKgfHWyHN3sFu2nKj3mhgRcqIPIJX6aOzq5AHVFES4R9Dw/vCBZFMPyaG81g2AZ5DogVh39P3MMNUbqNLTcw==
+    dependencies:
+      enzyme-adapter-utils "^1.9.0"
+      function.prototype.name "^1.1.0"
+      object.assign "^4.1.0"
+      object.values "^1.0.4"
+      prop-types "^15.6.2"
+      react-is "^16.6.1"
+      react-test-renderer "^16.0.0-0"
+  
+  enzyme-adapter-utils@^1.9.0:
+    version "1.9.1"
+    resolved "https://registry.yarnpkg.com/enzyme-adapter-utils/-/enzyme-adapter-utils-1.9.1.tgz#68196fdaf2a9f51f31603cbae874618661233d72"
+    integrity sha512-LWc88BbKztLXlpRf5Ba/pSMJRaNezAwZBvis3N/IuB65ltZEh2E2obWU9B36pAbw7rORYeBUuqc79OL17ZzN1A==
+    dependencies:
+      function.prototype.name "^1.1.0"
+      object.assign "^4.1.0"
+      prop-types "^15.6.2"
+      semver "^5.6.0"
   
   enzyme@^3.8.0:
     version "3.8.0"
@@ -11104,7 +11127,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-5.1.1.tgz#56f0439f001ff3588da0f479a86482ccb1e708cb"
     integrity sha512-gJcOyak5ri9mzhpFObSAkCqNNBCVZE8LaR/mX37agULgSL0dobgX11NVSIetvNzhHMkr6CIqV0xiutvvcjBtkw==
   
-  react-is@^16.3.2, react-is@^16.7.0:
+  react-is@^16.3.2, react-is@^16.6.1, react-is@^16.7.0:
     version "16.7.0"
     resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.7.0.tgz#c1bd21c64f1f1364c6f70695ec02d69392f41bfa"
     integrity sha512-Z0VRQdF4NPDoI0tsXVMLkJLiwEBa+RP66g0xDHxgxysxSoCUccSten4RTF/UFvZF1dZvZ9Zu1sx+MDXwcOR34g==
@@ -11243,7 +11266,7 @@ Lockfile:
     optionalDependencies:
       fsevents "1.2.4"
   
-  react-test-renderer@^16.7.0:
+  react-test-renderer@^16.0.0-0, react-test-renderer@^16.7.0:
     version "16.7.0"
     resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-16.7.0.tgz#1ca96c2b450ab47c36ba92cd8c03fcefc52ea01c"
     integrity sha512-tFbhSjknSQ6+ttzmuGdv+SjQfmvGcq3PFKyPItohwhhOBmRoTf1We3Mlt3rJtIn85mjPXOkKV+TaKK4irvk9Yg==
