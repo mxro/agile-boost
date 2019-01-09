@@ -28,10 +28,11 @@ const mocks = [
 
 
 let Component;
+let cookiesMap = {};
 
 beforeEach(() => {
     const cookies = {
-        set: () => {}
+        set: (name, value) => {cookiesMap[name] = value;}
     }
     Component = mount(<MockedProvider mocks={mocks} addTypename={false}>
         <SignupForm sessionId="123" cookies={cookies}/>
@@ -60,4 +61,5 @@ it('Allows creating a new user', async () => {
     await wait(0);
 
 
+    expect(cookiesMap['sessionId']).not.toBeUndefined();
 });

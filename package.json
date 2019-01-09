@@ -3,7 +3,7 @@
   "scripts": {
     "build": "lerna run build --stream",
     "watch": "concurrently --kill-others-on-fail \"cd packages/server-main; yarn watch\"  \"cd packages/client-main; yarn watch\"",
-    "watch-components" : "lerna run watch-components --stream",
+    "watch-components" : "lerna run watch-components --stream --no-sort --concurrency 100",
     "serve": "cd packages/server-main; cross-env PORT=8080 yarn serve",
     "test": "lerna run test --stream"
   },

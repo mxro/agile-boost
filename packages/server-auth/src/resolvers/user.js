@@ -7,8 +7,11 @@ export default {
     RootQuery: {
         user: async (obj, { sessionId }, context, info) => {
             const mongoose = context.mongoose;
-
-            const doc = mongo.extractDoc(await User.findOne({ sessionId: sessionId }));
+            const res = await User.findOne({ sessionId: sessionId });
+            if (!res) {
+                throw new Error('User not found for sessionId: '+sessionId);
+            }
+            const doc = mongo.extractDoc(res);
 
             return mongo.fixDates(doc);
 

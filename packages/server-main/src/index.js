@@ -1,7 +1,14 @@
 import express from 'express';
 import { ApolloServer, gql } from 'apollo-server-express';
 import path from 'path';
-import books from 'server-books';
+import { graphqlUtils } from 'server-utils';
+import { retro3ColResolvers, retro3ColSchema } from 'server-retro-3col';
+import { authResolvers, authSchema } from 'server-auth';
+import { merge } from 'lodash';
+
+
+import mongoose from 'mongoose';
+import MongoMemoryServer from 'mongodb-memory-server';
 
 const app = express();
 let port;
@@ -11,34 +18,45 @@ if (!process.env.PORT) {
     port = process.env.PORT
 }
 
-let typeDefs = gql([books.typeDefs].join(""));
+let typeDefs = gql(graphqlUtils.rootTypes() + authSchema + retro3ColSchema);
 
-let resolvers = {
-    ...books.queryResolvers
-}
-
-const server = new ApolloServer({
-    typeDefs,
-    resolvers,
-    context: {
-        
-    }
-  
-});
-
-server.applyMiddleware({ app })
-
-app.get('/hello', (req, res) => res.send('Hello World!'))
+let resolvers = merge(authResolvers, retro3ColResolvers);
 
 
-// Serving react client
-if (process.env.NODE_ENV === 'production') {
+const init = async () => {
+    const mongod = new MongoMemoryServer();
+    const mongoport = await mongod.getPort();
+    const dbName = await mongod.getDbName();
 
-    app.use(express.static(path.join(__dirname, '../../client-main/build')));
+    console.log(`Connecting to mongodb on port ${mongoport}`);
+    mongoose.connect(`mongodb://localhost:${mongoport}/${dbName}`, { useNewUrlParser: true });
 
-    app.get('*', function (req, res) {
-        res.sendFile(path.join(__dirname, '../../client-main/build', 'index.html'));
+    const server = new ApolloServer({
+        typeDefs,
+        resolvers,
+        context: {
+            mongoose
+        }
+
     });
-}
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+    server.applyMiddleware({ app })
+
+    app.get('/hello', (req, res) => res.send('Hello World!'))
+
+
+    // Serving react client
+    if (process.env.NODE_ENV === 'production') {
+
+        app.use(express.static(path.join(__dirname, '../../client-main/build')));
+
+        app.get('*', function (req, res) {
+            res.sendFile(path.join(__dirname, '../../client-main/build', 'index.html'));
+        });
+    }
+
+    app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+
+}
+console.log('starting server ...');
+init().then(res => {}).catch((e) => console.log(e));
