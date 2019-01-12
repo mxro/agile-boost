@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 
 import { ApolloProvider } from "react-apollo";
@@ -8,8 +9,9 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { BrowserRouter, Route } from 'react-router-dom';
 
 import ApolloClient from "apollo-boost";
-import { About, Home } from 'client-components';
-
+import { About} from 'client-components';
+import Home from 'client-components/dist/Home/Home';
+import MainNavbar from '../MainNavbar/MainNavbar';
 import { Signup } from 'client-auth';
 import Cookies from 'js-cookie';
 
@@ -17,9 +19,21 @@ const link = createHttpLink({
   uri: '/graphql',
   credentials: 'same-origin'
 });
+const defaults = {
+  isLoggedIn: false,
+  email: null,
+  userId: null
+};
+const resolvers = {};
+const typeDefs = ``;
 const client = new ApolloClient({
   link,
-  cache: new InMemoryCache()
+  cache: new InMemoryCache(),
+  clientState: {
+    defaults,
+    resolvers,
+    typeDefs
+  }
 });
 
 class App extends Component {
@@ -30,16 +44,18 @@ class App extends Component {
     }
     return (
       <ApolloProvider client={client}>
-
         <BrowserRouter>
-          <div className="App">
-            <Route path="/" component={Home} exact />
-            <Route path="/about" component={About} />
-            <Route path="/signup" component={About} />
-            <Route path="/register" render={(props) => <div><Signup {...props} cookies={cookies}></Signup></div>} />
-          </div>
-        </BrowserRouter>
+          <React.Fragment>
 
+            <MainNavbar cookies={cookies}></MainNavbar>
+            <div className="App">
+              <Route path="/" component={Home} exact />
+              <Route path="/about" component={About} />
+              <Route path="/signup" render={(props) => <div><Signup {...props} cookies={cookies}></Signup></div>} />
+            </div>
+          </React.Fragment>
+
+        </BrowserRouter>
       </ApolloProvider >
     );
   }

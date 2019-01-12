@@ -19,22 +19,25 @@ class SignupForm extends React.Component {
         this.setState({ email: event.target.value });
     }
 
-    handleSignedUp() {
-         this.props.onSignedUp(); 
+    handleSignedUp(data) {
+        this.client.writeData({ data: { email: data.createUser.email } });
+        this.client.writeData({ data: { userId: data.createUser._id } });
+        this.client.writeData({ data: { isLoggedIn: true } });
+        this.props.onSignedUp();
     }
     render() {
         return (
-            <Mutation mutation={CREATE_USER} onCompleted={data => {this.handleSignedUp()}}>
-                {(createUser, { data, loading, error }) => (
+            <Mutation mutation={CREATE_USER} onCompleted={(data) => { this.handleSignedUp(data) }}>
+                {(createUser, { client, data, loading, error }) => (
                     <div>
                         <form onSubmit={event => {
-
+                            this.client = client;
                             event.preventDefault();
                             if (!this.state.email) {
                                 alert('Please provide an email address');
                                 return;
                             }
-                            const newSessionId = this.props.sessionId || sessionId(); 
+                            const newSessionId = this.props.sessionId || sessionId();
                             this.props.cookies.set("sessionId", newSessionId);
                             createUser({
                                 variables: {
@@ -44,7 +47,7 @@ class SignupForm extends React.Component {
                                     }
                                 }
                             });
-                            this.handleChange( {target: { value: ""}}); 
+                            this.handleChange({ target: { value: "" } });
 
                         }}>
                             <label>
