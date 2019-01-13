@@ -10,20 +10,22 @@ import sessionId from './sessionId';
 class SignupForm extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { email: '' };
+        this.state = { username: '' };
 
         this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange(event) {
-        this.setState({ email: event.target.value });
+        this.setState({ username: event.target.value });
     }
 
     handleSignedUp(data) {
-        this.client.writeData({ data: { email: data.createUser.email } });
+        this.client.writeData({ data: { username: data.createUser.username } });
         this.client.writeData({ data: { userId: data.createUser._id } });
         this.client.writeData({ data: { isLoggedIn: true } });
-        this.props.onSignedUp();
+        if (this.props.onSignedUp) {
+            this.props.onSignedUp();
+        }
     }
     render() {
         return (
@@ -33,8 +35,8 @@ class SignupForm extends React.Component {
                         <form onSubmit={event => {
                             this.client = client;
                             event.preventDefault();
-                            if (!this.state.email) {
-                                alert('Please provide an email address');
+                            if (!this.state.username) {
+                                alert('Please provide a username');
                                 return;
                             }
                             const newSessionId = this.props.sessionId || sessionId();
@@ -42,7 +44,7 @@ class SignupForm extends React.Component {
                             createUser({
                                 variables: {
                                     userInput: {
-                                        email: this.state.email,
+                                        username: this.state.username,
                                         sessionId: newSessionId
                                     }
                                 }
@@ -51,8 +53,8 @@ class SignupForm extends React.Component {
 
                         }}>
                             <label>
-                                Email:
-          <input type="text" value={this.state.email} onChange={this.handleChange} />
+                                Username:
+          <input type="text" value={this.state.username} onChange={this.handleChange} />
                             </label>
                             <input type="submit" value="Submit" />
                         </form>

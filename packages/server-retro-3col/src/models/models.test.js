@@ -18,7 +18,7 @@ it('Can create models and save to db', async () => {
     mongoose.connect(`mongodb://localhost:${port}/${dbName}`, { useNewUrlParser: true });
 
     let user = new User({
-        email: 'test@test.email',
+        username: 'test',
         sessionId: 'dummyId'
     });
 
@@ -42,7 +42,7 @@ it('Can create models and save to db', async () => {
 
     let board = new Board({
         title: 'Agile 3',
-        creatorId: user,
+        creator: user,
         columns: [column]
     });
 

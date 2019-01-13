@@ -5,6 +5,8 @@ import { graphql } from 'graphql'
 import resolvers from '../src/resolvers'
 import typeDefs from '../src/schema'
 
+jest.setTimeout(250000);
+
 const titleTestCase = {
     id: 'Query Title',
     query: `

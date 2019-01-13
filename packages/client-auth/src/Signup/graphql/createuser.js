@@ -4,7 +4,7 @@ export default gql`
     mutation CreateUser($userInput: UserInput!) {
         createUser(userInput: $userInput) {
            _id
-           email
+           username 
      }
   }
 `;

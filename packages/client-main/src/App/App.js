@@ -13,6 +13,7 @@ import { About} from 'client-components';
 import Home from 'client-components/dist/Home/Home';
 import MainNavbar from '../MainNavbar/MainNavbar';
 import { Signup } from 'client-auth';
+import Retro3Boards from 'client-retro-3col/dist/Boards/Boards';
 import Cookies from 'js-cookie';
 
 const link = createHttpLink({
@@ -21,7 +22,7 @@ const link = createHttpLink({
 });
 const defaults = {
   isLoggedIn: false,
-  email: null,
+  username: null,
   userId: null
 };
 const resolvers = {};
@@ -50,6 +51,7 @@ class App extends Component {
             <MainNavbar cookies={cookies}></MainNavbar>
             <div className="App">
               <Route path="/" component={Home} exact />
+              <Route path='/retro3' component={Retro3Boards} />
               <Route path="/about" component={About} />
               <Route path="/signup" render={(props) => <div><Signup {...props} cookies={cookies}></Signup></div>} />
             </div>

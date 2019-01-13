@@ -1,7 +1,7 @@
 export default `
 type User {
     _id: ID!
-    email: String
+    username: String
     sessionId: String!
 }
 
@@ -11,7 +11,7 @@ extend type RootQuery {
 
 input UserInput {
     sessionId: String!
-    email: String
+    username: String
 }
 
 extend type RootMutation {

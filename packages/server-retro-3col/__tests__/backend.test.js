@@ -12,6 +12,8 @@ let mongod;
 
 let lastResult = {};
 
+jest.setTimeout(250000);
+
 const userTestCase = {
     id: 'Create and query user',
     queries: [{
@@ -25,7 +27,7 @@ const userTestCase = {
         variables: {
             userInput: {
                 sessionId: "dummysessionid",
-                email: "test@test.com"
+                username: "test"
             }
         },
         assert: (result) => expect(result).toEqual({ data: { createUser: { sessionId: "dummysessionid" } } })
@@ -34,13 +36,13 @@ const userTestCase = {
         query: `
             query {
                 user(sessionId: "dummysessionid") {
-                    email
+                    username 
                 }
             }
         `,
         variables: {
         },
-        assert: (result) => expect(result).toEqual({ data: { user: { email: "test@test.com" } } })
+        assert: (result) => expect(result).toEqual({ data: { user: { username: "test" } } })
     },
     {
         query: `
@@ -59,6 +61,9 @@ const userTestCase = {
             mutation CreateBoard($boardInput: BoardInput) {
                 createBoard(boardInput: $boardInput) {
                     _id
+                    creator {
+                        _id
+                    }
                 }
              }
         `,
@@ -68,18 +73,19 @@ const userTestCase = {
                 creatorId: () => lastResult.data.user._id
             }
         },
-        assert: (result) => expect(result.data.createBoard._id).not.toBeUndefined()
+        assert: (result) => { expect(result.data.createBoard._id).not.toBeUndefined(); }
     },
     {
         query: `
-            query {
-                boards {
+            query Boards($creatorId: String!) {
+                boards(creatorId: $creatorId) {
                     _id
                     title
                 }
             }
         `,
         variables: {
+            creatorId: () => lastResult.data.createBoard.creator._id
         },
         assert: (result) => {
             expect(result.data.boards.length).toBeGreaterThan(0)
@@ -198,6 +204,13 @@ describe('Test Cases', async () => {
             for (let query of queries) {
 
                 const result = await graphql(schema, query.query, null, context, evaluateVariables(query.variables));
+                if (result.errors) {
+                    fail(`${result.errors[0].message}
+                    (${result.errors[0].path} ${result.errors[0].locations})
+                    `
+                    );
+                    return;
+                }
                 if (query.assert) {
                     query.assert(result);
                 }

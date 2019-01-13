@@ -11,7 +11,6 @@ it('Renders message', () => {
        get: () => "dummy"
    };
 
-
    const component = mount(<Signup cookies={cookies}></Signup>)
    
    expect(component.html()).toContain("You are already logged in");

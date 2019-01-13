@@ -13,7 +13,7 @@ const mocks = [
         request: {
             query: CREATE_USER,
             variables: {
-                userInput: {sessionId: '123', email: 'test@test.com'}
+                userInput: {sessionId: '123', username: 'test'}
             }
         },
         result: {
@@ -40,12 +40,12 @@ beforeEach(() => {
 
 })
 
-it('Expects an email address', async () => {
+it('Expects a username', async () => {
 
     window.alert = jest.fn();
     const Form = Component.find('[type="text"]');
     Form.simulate('submit');
-    expect(window.alert).toHaveBeenCalledWith('Please provide an email address');
+    expect(window.alert).toHaveBeenCalledWith('Please provide a username');
     await wait(0);
 
 });
@@ -53,8 +53,8 @@ it('Expects an email address', async () => {
 it('Allows creating a new user', async () => {
 
     const input = Component.find('[type="text"]');
-    input.instance().value = "test@test.com";
-    input.simulate('change', { target: { value: 'test@test.com' } });
+    input.instance().value = "test";
+    input.simulate('change', { target: { value: 'test' } });
     const form = Component.find('form');
 
     form.simulate('submit');

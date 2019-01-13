@@ -16,7 +16,7 @@ it('Can create models and save to db', async () => {
     mongoose.connect(`mongodb://localhost:${port}/${dbName}`, { useNewUrlParser: true });
 
     let user = new User({
-        email: 'test@test.email',
+        username: 'test',
         sessionId: 'dummyId'
     });
 

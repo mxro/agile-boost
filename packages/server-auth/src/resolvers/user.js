@@ -18,10 +18,10 @@ export default {
         },
     },
     RootMutation: {
-        createUser: async (obj, {userInput: {sessionId, email}}, context, info) => {
+        createUser: async (obj, {userInput: {sessionId, username}}, context, info) => {
             const user = new User({
                 sessionId: sessionId,
-                email: email
+                username: username 
             });
             const res =  mongo.fixDates(mongo.extractDoc(await user.save()));
             return res;

@@ -21,6 +21,9 @@ class MainNavbar extends Component {
                         <LinkContainer to="/" exact>
                             <Nav.Link href="/">Home</Nav.Link>
                         </LinkContainer>
+                        <LinkContainer to="/retro3" >
+                            <Nav.Link href="/">Retro3</Nav.Link>
+                        </LinkContainer>
                         <LinkContainer to="/about">
                             <Nav.Link href="/about">About</Nav.Link>
                         </LinkContainer>

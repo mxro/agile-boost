@@ -25,7 +25,7 @@ type Entry {
 }
 
 extend type RootQuery {
-    boards: [Board!]!
+    boards(creatorId: String!): [Board!]!
     board(boardId: String!): Board
     column(columnId: String!): Column
 }

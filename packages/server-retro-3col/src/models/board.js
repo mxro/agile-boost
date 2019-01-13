@@ -7,7 +7,7 @@ const boardSchema = new Schema({
         type: String,
         required: true,
     },
-    creatorId: {
+    creator: {
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true,
